@@ -1,0 +1,5 @@
+typer>=0.9
+rich>=13
+httpx>=0.25
+beautifulsoup4>=4.12
+PyYAML>=6
