@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "paramforge"
-version = "1.0.0"
+version = "1.1.0"
 description = "Advanced URL Parameter Discovery & Recon Intelligence Framework"
 readme = "README.md"
 requires-python = ">=3.11"
