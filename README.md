@@ -45,3 +45,21 @@ python -m compileall src
 ## Responsible use
 
 ParamForge is intended for authorized penetration testing, in-scope bug bounty work, owned systems, educational labs, and defensive research. Passive mode avoids network requests; active mode is deliberately controlled and does not implement credential attacks, bypasses, exploit payloads, or denial-of-service behavior.
+
+## Intelligence upgrade
+
+The analytics layer adds offline enrichment, Unicode and alias normalization, endpoint templates, source confidence, distributions, relationship graphs (`json`, `csv`, `dot`, `graphml`), snapshots, deterministic comparisons, and local search. Examples:
+
+```bash
+paramforge snapshot results/example.com/parameters.json --label daily-1
+paramforge compare snapshots/daily-1.json snapshots/daily-2.json
+paramforge graph results/example.com/parameters.json --output graph.dot
+paramforge dashboard results/example.com/parameters.json
+paramforge search redirect --database results/example.com/scan.db --min-score 70
+paramforge db backup --database results/example.com/scan.db --destination backup.db
+paramforge workspace create client-a
+paramforge plugins list
+paramforge benchmark
+```
+
+Database upgrades are additive. Opening an existing v1 database creates `schema_version`, `migration_history`, `snapshots`, `events`, and `notes`; existing scans and parameters are retained.

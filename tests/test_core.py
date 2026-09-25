@@ -11,6 +11,6 @@ def test_sensitive_redaction(): assert redact('api_key','secret')=='[REDACTED]'
 
 def test_html_and_json():
  p,f=extract_html('<a href="/search?q=one">x</a><form action="/login"><input name="return"></form>','https://e.test/')
- assert '/search?q=one' in p.links and any(x.name=='q' for x in f)
+ assert 'https://e.test/search?q=one' in p.links and any(x.name=='q' for x in f)
  assert any(x.name=='return' for x in extract_html('<form action="/x"><input name="return"></form>','https://e.test/')[1])
  assert extract_json('{"page": 3}', 'https://e.test/api')[0].name=='page'

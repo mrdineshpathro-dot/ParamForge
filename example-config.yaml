@@ -1,0 +1,23 @@
+target:
+  max_depth: 3
+  timeout: 10
+network:
+  workers: 10
+  rate_limit: 5
+discovery:
+  crawl: false
+analysis:
+  similarity_threshold: 0.90
+  minimum_interest_score: 30
+history:
+  enabled: true
+  retention_days: 90
+alerts:
+  enabled: true
+webhooks:
+  enabled: false
+  urls: []
+workspace:
+  default: default
+privacy:
+  redact_sensitive_values: true

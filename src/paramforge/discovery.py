@@ -46,3 +46,17 @@ def extract_html(html,url,source='html'):
         for name in form['names']: findings += extract_url(form['action']+'?'+name+'=', 'form', form['method'])
     for link in parser.links: findings += extract_url(link,source)
     return parser, findings
+
+def extract_javascript(script: str, base_url: str = '', source: str = 'javascript'):
+    """Extract route-like strings and nearby parameter names without executing JavaScript."""
+    routes=[]; findings=[]
+    patterns=(r'''["']((?:https?://|/)(?:[^"'\\s]+))["']''', r'''(?:fetch|axios\.(?:get|post|put|delete)|XMLHttpRequest)[^;]{0,300}?["']([^"']+)["']''')
+    for pattern in patterns:
+        for match in re.findall(pattern,script,re.I):
+            route=urljoin(base_url,match) if base_url else match
+            if route not in routes: routes.append(route)
+    for route in routes: findings.extend(extract_url(route,source))
+    # Common query/body object keys are useful even when route values are templated.
+    for name in set(re.findall(r'''(?:[?&]|[,{]\s*)([A-Za-z_][\w-]*)\s*[:=]''',script)):
+        kind,conf=classify(name,''); findings.append(Finding(name,'',base_url,urlparse(base_url).path,urlparse(base_url).netloc,'GET',source,kind,conf,score(name,'',classification=kind)[0]))
+    return {'routes':routes,'findings':findings,'websockets':re.findall(r'''wss?://[^"'\\s]+''',script,re.I)}

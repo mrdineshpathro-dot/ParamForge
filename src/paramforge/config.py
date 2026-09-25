@@ -13,6 +13,15 @@ class Config:
     redact_sensitive_values: bool = True
     allow_domains: list[str] = field(default_factory=list)
     deny_domains: list[str] = field(default_factory=list)
+    crawl_budget: int = 5000
+    max_endpoints: int = 1000
+    similarity_threshold: float = 0.90
+    minimum_interest_score: int = 30
+    history_enabled: bool = True
+    retention_days: int = 90
+    alerts_enabled: bool = True
+    webhook_urls: list[str] = field(default_factory=list)
+    workspace: str = 'default'
     @classmethod
     def load(cls, path: str|None = None):
         c = cls()
